@@ -14,3 +14,18 @@ $("document").ajaxStop(function(){
 
 });
 
+$(function(){
+//1、分类管理切换
+    $(".nav .category").click(function(){
+        //切换
+        $(".nav .child").stop().slideToggle();
+    })
+
+    //2、左边切换
+    $(".icon_menu").click(function(){
+        $(".lt_aside").toggleClass('hidemenu');
+        $(".lt_main").toggleClass('hidemenu');
+        $(".lt_topbar").toggleClass('hidemenu');
+    });
+
+})
