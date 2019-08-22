@@ -1,7 +1,60 @@
+body,
+div,
+ul,
+li,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+select,
+p,
+dl,
+dt,
+dd,
+a,
+img,
+button,
+form,
+table,
+th,
+tr,
+td,
+tbody,
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+menu,
+nav,
+section{
+    margin:0;
+    padding:0;
+    text-decoration: none;
+
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+
+}
+ul,li,ol{
+    list-style: none;
+}
 .body_bg{
   background-color: #222D32;
 }
-
+a,a:hover,
+a:link,
+a:visited,
+a:active {
+    text-decoration: none;
+}
 .panel .panel-title{
     height:40px;
     line-height: 40px;
@@ -14,4 +67,87 @@
 label{
     font-size:13px;
 
+}
+.lt_aside{
+    width:180px;
+    height:100%;
+    position: fixed;
+    background-color: #222D32;
+    z-index:999;
+}
+.lt_aside .brand{
+    width:100%;
+    height:50px;
+    text-align: center;
+    line-height: 50px;
+    background-color:deepskyblue;
+
+}
+.lt_aside .brand a{
+    font-size: 20px;
+    color:#fff;
+}
+.user{
+    padding-top:30px;
+    padding-bottom:30px;
+
+}
+.user img{
+    width:80px;
+    height:80px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+}
+.user p{
+    color: #fff;
+    margin-top:5px;
+    font-size: 18px;
+    text-align: center;
+
+}
+/*.nav{*/
+/*  padding-left:46px;*/
+/*}*/
+.nav a{
+    display: block;
+    width:100%;
+    height:40px;
+   line-height: 40px;
+    color:#fff;
+    padding-left:46px;
+    border-left:3px solid transparent;
+}
+.nav .child a{
+    padding-left:60px;
+}
+.lt_aside .nav a.current{
+    background-color: #1D1F21;
+    border-left:3px solid #069;
+}
+.lt_main{
+    padding-left:180px;
+    height:1000px;
+    background-color: lightpink;
+    padding-top:50px;
+}
+.lt_topbar{
+    width:100%;
+    height:50px;
+    background-color: #3C8DBC;
+    position: fixed;
+    top:0;
+    left:0;
+    padding-left:180px;
+}
+.lt_topbar a{
+    width:50px;
+    height:50px;
+    line-height: 50px;
+    text-align: center;
+    color: #fff;
+    font-size:16px;
+}
+. mt_20{
+    margin-top: 20px;
 }

@@ -3,8 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href=" ./css/common.css ">
 </head>
 <body>
-<div>后台管理系统</div>
+<!--左侧侧边栏-->
+<div class="lt_aside">
+<!--    标题-->
+    <div class="brand">
+        <a href="javascript:;">web后台管理</a>
+    </div>
+
+<!--    用户-->
+    <div class="user">
+        <img src="./images/default.jpeg" alt="">
+        <p>超级管理员</p>
+    </div>
+<!--    导航-->
+    <div class="nav">
+        <ul>
+            <li>
+                <a href="user.html">
+                <i class="glyphicon glyphicon-user"></i>
+                <span>用户管理</span>
+            </a>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="glyphicon glyphicon-list"></i>
+                    <span>分类管理</span>
+
+                </a>
+                <div class="child" style="display: none">
+                    <a href="first.html">一级分类</a>
+                    <a href="second.html">二级分类</a>
+                </div>
+
+            </li>
+            <li>
+                <a href="product.html"  class="current">
+                    <i class="glyphicon glyphicon-tags"></i>
+                    <span>商品管理</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="lt_main">
+<!--    头部菜单-->
+    <div class="lt_topbar">
+        <a class=" icon_menu pull-left glyphicon glyphicon-align-justify"href="javascript:;"></a>
+        <a class="icon_exit pull-right glyphicon glyphicon-log-out"href="javascript:;"></a>
+    </div>
+<!--    流式布局容器  container-fluid 默认左右padding 15px-->
+    <div class="container-fluid mt_20">
+        <ol class="breadcrumb">
+            <li><a href="index.html">管理系统</a></li>
+            <li class="active">首页</li>
+        </ol>
+    </div>
+</div>
+<script src="./lib/jquery/jquery.min.js"></script>
+<script src="./lib/bootstrap/js/bootstrap.js"></script>
+<script src="./lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script src="./lib/nprogress/nprogress.js"></script>
+<script src="js/common.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
