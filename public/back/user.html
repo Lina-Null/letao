@@ -57,12 +57,41 @@
 
     </div>
     <!--    流式布局容器  container-fluid 默认左右padding 15px-->
-    <div class="container-fluid mt_20">
-        <ol class="breadcrumb">
+    <div class="container-fluid ">
+<!--        面包屑导航，路径导航-->
+        <ol class="breadcrumb mt_20">
             <li><a href="index.html">管理系统</a></li>
             <li class="active">用户管理</li>
         </ol>
+
+
+        <div class="lt_content">
+<!--            表格 只需给表格添加类就可以实现一些简单样式-->
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>用户名</th>
+                    <th>手机号</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+<!--                <tr>-->
+<!--                    <td>1</td>-->
+<!--                    <td>222</td>-->
+<!--                    <td>333</td>-->
+<!--                    <td>正常</td>-->
+<!--                    <td><button class="btn btn-danger">禁用</button></td>-->
+<!--                </tr>-->
+                </tbody>
+            </table>
+            
+
+        </div>
     </div>
+
 </div>
 
 <!-- Modal -->
@@ -98,6 +127,32 @@
 <script src="./lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
 <script src="./lib/nprogress/nprogress.js"></script>
 <script src="js/common.js"></script>
+<script src="js/user.js"></script>
+<!--
+    模板引擎
+    1、引包
+    2、准备模板
+    3、准备数据
+    4、将模板和数据相结合，进行页面渲染
+-->
+<script src="./lib/artTemplate/template-web.js"></script>
+<script type="text/html" id="tpl">
+    {{each rows v i}}
+    <tr>
+        <td>{{i+1}} </td>
+        <td>{{v.username}} </td>
+        <td>{{v.mobile}} </td>
+        <td>{{ v.isDelete === 1 ? "正常":"禁用" }} </td>
+        <td>
+            {{if v.isDelete === 1}}
+               <button class="btn btn-danger">禁用</button></td>
+            {{ /if }}
+            {{if v.isDelete === 0 }}
+                <button class="btn btn-success">启用</button></td>
+            {{ /if }}
+    </tr>
+    {{ /each}}
+</script>
 
 </body>
 </html>

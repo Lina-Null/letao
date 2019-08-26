@@ -183,3 +183,8 @@ label{
     height:400px;
 
 }
+.table.table-bordered th,.table.table-bordered td{
+    text-align: center;
+/*    垂直居中*/
+    vertical-align: middle;
+}
