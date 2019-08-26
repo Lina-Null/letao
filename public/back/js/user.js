@@ -1,7 +1,9 @@
 //一进入页面 就发送 ajax的请求
 $(function(){
-    var currentPage = 1;
-    var pageSize = 5;
+    var currentPage = 1;//当前页
+    var pageSize = 5;//每页大小
+    var currentId;
+    var isDelte;
     render();
     function render(){
         $.ajax({
@@ -13,11 +15,10 @@ $(function(){
                 pageSize:pageSize
             },
             success:function(info){
-                console.log(info);
                 if(info){
                     var htmlStr = template('tpl',info);
                     $('tbody').html(htmlStr);
-                    // console.log( info.rows[0].id,info.rows[0].username,info.rows[0].mobile,info.rows[0].isDelete);
+
                     //分页功能
                     $('#paginator').bootstrapPaginator({
                         //    配置版本
@@ -40,7 +41,41 @@ $(function(){
 
         });
     }
+//模态框事件
+    $('tbody').on("click",".btn",function(){
+        //模态框显式
+        $('#userModal').modal('show');
+        //获取用户 id,jquery 中提供了获取自定义属性的方法，data()
+        currentId = $(this).parent().data("id");
+    //    如果是禁用按钮，说明需要将该用户设置禁用状态，传0,1:启用 0：禁用
+        isDelte = $(this).hasClass("btn-danger")? 0 : 1;
+    });
+$('#submitBtn').click(function(){
+   // $('#submitBtn').on("click",".btn",function(){
+
+        $.ajax({
+            type:"POST",
+            dataType:"json",
+            url:"/user/updateUser",
+            data:{
+                id:currentId,
+                isDelete:isDelte
+            },
+            success:function (info) {
+
+                if (info.success){
+                    //关闭模态框
+                    $('#userModal').modal('hide');
+                    //重新渲染该页
+                    render();
+                }
 
 
+            }
+
+
+
+        });
+    });
 
 })

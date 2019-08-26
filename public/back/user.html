@@ -99,8 +99,8 @@
 
 <!-- Modal -->
 <!--最外层蒙层-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" >
-    <!--    模态框结构-->
+<div class="modal fade" id="userModal" tabindex="-1" role="dialog" >
+    <!--   启用禁用 模态框结构-->
     <div class="modal-dialog modal-sm" >
         <div class="modal-content">
             <div class="modal-header">
@@ -113,13 +113,13 @@
             <div class="modal-body">
                 <p class="red">
                     <i class="glyphicon glyphicon-info-sign"></i>
-                    您确定要退出后台管理系统吗？
+                    您确定要执行此操作吗？
                 </p>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="logoutBtn">退出</button>
+                <button type="button" class="btn btn-primary" id="submitBtn">确认</button>
             </div>
         </div>
     </div>
@@ -148,7 +148,7 @@
         <td>{{v.username}} </td>
         <td>{{v.mobile}} </td>
         <td>{{ v.isDelete === 1 ? "正常":"禁用" }} </td>
-        <td>
+        <td data-id="{{ v.id }}" >
             {{if v.isDelete === 1}}
                <button class="btn btn-danger">禁用</button>
             {{ /if }}
