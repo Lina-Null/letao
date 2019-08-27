@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href=" ./css/common.css ">
+    <link rel="stylesheet" href="./css/common.css ">
 </head>
 <body>
 <!--左侧侧边栏-->
@@ -65,9 +65,62 @@
             <li class="active">分类管理</li>
             <li class="active">一级分类</li>
         </ol>
+
+        <div class="lt_content">
+            <!--    添加分类按钮-->
+            <button class="btn btn-default mb_20" id="addBtn">添加</button>
+            <!--    表单-->
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th width="20%">序号</th>
+                    <th width="80%">一级分类</th>
+                </tr>
+                </thead>
+                <tbody>
+<!--                <tr>-->
+<!--                    <td>1111</td>-->
+<!--                    <td>1111</td>-->
+<!--                </tr>-->
+                </tbody>
+            </table>
+
+            <!--           分页插件-->
+            <div class="text-right">
+                <ul id="paginator"></ul>
+            </div>
+        </div>
     </div>
 </div>
+<!--添加按钮模态框-->
+<div class="modal fade" id="addModal" tabindex="-1" >
+    <!--    模态框结构-->
+    <div class="modal-dialog modal-sm" >
+        <div class="modal-content">
+            <form action="" id="form">
+                    <div class="modal-header">
+                        <!--                data-dismiss 可以关闭模态框-->
+                        <button type="button" class="close" data-dismiss="modal" role="dialog">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" >添加分类</h4>
+                    </div>
 
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="请输入一级分类" name="categoryName">
+                            </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary" form="form">添加</button>
+                    </div>
+            </form>
+        </div>
+
+    </div>
+</div>
 <!-- Modal -->
 <!--最外层蒙层-->
 <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" >
@@ -99,8 +152,22 @@
 <script src="./lib/jquery/jquery.min.js"></script>
 <script src="./lib/bootstrap/js/bootstrap.js"></script>
 <script src="./lib/bootstrap-validator/js/bootstrapValidator.min.js"></script>
+<script src="./lib/bootstrap-paginator/bootstrap-paginator.min.js"></script>
 <script src="./lib/nprogress/nprogress.js"></script>
 <script src="js/common.js"></script>
+<script src="js/first.js"></script>
+<script src="./lib/artTemplate/template-web.js"></script>
+<script type="text/html" id="tpl">
+    {{ each rows v i}}
+    <tr>
+        <!-- 前面有多少页*一页多少条 + (i+1) -->
+        <td>{{(page-1)*size+i+1}}</td>
+        <td>{{v.categoryName}}</td>
+    </tr>
+    {{ /each }}
+</script>
+
+
 
 </body>
 </html>
