@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="lib/bootstrap-validator/css/bootstrapValidator.min.css">
+    <link rel="stylesheet" href="lib/nprogress/nprogress.css">
     <link rel="stylesheet" href=" ./css/common.css ">
 </head>
 <body>
@@ -66,7 +68,7 @@
 
     <div class="lt_content">
         <!--            分类按钮-->
-        <button class="btn btn-default mb_20" id="addBtn">添加分类</button>
+        <button class="btn btn-default mb_20" id="addBtn">添加商品</button>
         <!--            表单-->
         <table class="table table-bordered table-hover">
             <thead>
@@ -124,14 +126,15 @@
 <!--添加模态框-->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" >
     <!--    模态框结构-->
-    <div class="modal-dialog modal-sm" >
+    <div class="modal-dialog " >
         <div class="modal-content">
+
             <div class="modal-header">
                 <!--                data-dismiss 可以关闭模态框-->
                 <button type="button" class="close" data-dismiss="modal" >
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" >添加分类</h4>
+                <h4 class="modal-title" >添加商品</h4>
             </div>
 
             <div class="modal-body">
@@ -156,26 +159,27 @@
                         <input type="text" class="form-control" placeholder="请输入商品名称" name="proName">
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" rows="3" placeholder="请输入商品描述" name=" proDesc"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="请输入商品描述" name="proDesc"></textarea>
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="请输入商品库存" name="num">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="请输入商品尺码" name="size ">
+                        <input type="text" class="form-control" placeholder="请输入商品尺码" name="size">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="请输入商品原价" name="oldPrice">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="请输入商品现价" name="Price">
+                        <input type="text" class="form-control" placeholder="请输入商品现价" name="price">
                     </div>
                     <div class="form-group">
                         <!--                        通过label for属性 标签关联 input 的id  -->
                         <label for="fileupload" class="btn btn-default">上传图片</label>
-                        <input type="file" name="pic1" data-url="/product/addProductPic" id="fileupload" style="display: none;">
+<!--                        multiple 是可以选择多个文件-->
+                        <input type="file" name="pic1" multiple data-url="/product/addProductPic" id="fileupload" style="display: none;">
                     </div>
-                    <div class="form-group" id="imgBox" style="display:none">
+                    <div class="form-group" id="imgBox">
 
 <!--                       标记当前图片有没有上传满三张  -->
                         <input type="hidden" name="picStatus">
@@ -184,7 +188,7 @@
 
                     </div>
 
-                </form>
+                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -209,7 +213,7 @@
 <script src="js/common.js"></script>
 <script src="js/product.js"></script>
 <!--渲染模板-->
-<script type="text/html" id="tpl">
+<script type="text/html" id="productTpl">
 {{ each rows v i}}
 <tr>
     <td >{{i+1+(page-1)*size}}</td>
@@ -221,8 +225,7 @@
     <td data-id="{{v.id}}">
         {{ if v.statu ===1}}
         <button class="btn btn-danger">下架</button>
-        {{/if}}
-        {{ if v.statu === 0}}
+        {{else}}
         <button class="btn btn-success">上架</button>
         {{/if}}
     </td>

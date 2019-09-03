@@ -1,6 +1,8 @@
 $(function(){
     var currentPage=1;
     var pageSize=5;
+    //定义用来存储已上传图片的数组
+    var picArr = [];
     render();
     //一进页面 发送 ajax
     function render(){
@@ -14,13 +16,48 @@ $(function(){
             },
             success:function(info){
 
-                var htmlStr = template("tpl",info);
+                var htmlStr = template("productTpl",info);
                 $("tbody").html(htmlStr);
 
                 //分页插件渲染
                 $("#paginator").bootstrapPaginator({
                 // 配置版本
                     bootstrapMajorVersion:3,
+                  //  配置按钮文本
+                    itemTexts:function(type,page,current){
+                    //    每个按钮在初始化时，都会调用一次这个函数，通过返回值进行设置文本
+                      switch(type){
+                          case "page":
+                              return page;
+                          case "first":
+                              return "首页";
+                          case "last":
+                              return "尾页";
+                          case "prev":
+                              return "上一页";
+                          case "next":
+                              return "下一页";
+
+                      }
+                    },
+                  //  配置title,每个按钮在初始化时，都会调用一次这个函数，通过返回值设置title文本
+                    tooltipTitles:function(type,page,current){
+                        switch(type){
+                            case "page":
+                                return "前往第"+page+"页";
+                            case "first":
+                                return "首页";
+                            case "last":
+                                return "尾页";
+                            case "prev":
+                                return "上一页";
+                            case "next":
+                                return "下一页";
+
+                        }
+                    },
+                    //使用bootstrap的提示框
+                    useBootstrapTooltip:true,
                   //  指定页数
                   totalPages:Math.ceil(info.total/info.size),
                 //    当前页
@@ -54,7 +91,7 @@ $(function(){
             },
             dataType:"json",
             success:function(info){
-                console.log(info);
+
                 var htmlStr = template("secondTpl",info);
                 $(".dropdown-menu").html(htmlStr);
             }
@@ -75,21 +112,28 @@ $(function(){
         $("[name ='brandId']").val(id);
 
 
-    //    表单校验
-        $("#from").data("bootstrapValidator").updatStatus("brandId","VALID");
     });
 //    校验上传文件
     $("#fileupload").fileupload({
         dataType:"json",
         done:function(e,data){
-            var imgUrl = data.result.picAddr;
-            $("#imgBox").appendChild("img");
-            $("img").height(50).width(50);
-            $("img").attr("src",imgUrl);
+            //往数组最前面追加图片
+            var picObj = data.result;
+            var picAddr = picObj.picAddr;
+            picArr.unshift(picObj);
+            $("#imgBox").prepend('<img src="'+picAddr+'" width="100" >');
 
+            if(picArr.length >3){
+                //移除数组中最后一项
+                picArr.pop();
+            //    移除imgBox中的最后一个图片
+                $("#imgBox img").eq(-1).remove();
+            }
 
-
-
+        //    如果处理后，图片数组的长度为3，那么就通过校验，手动将picStatus置VALID
+            if (picArr.length === 3){
+                $('#form').data("bootstrapValidator").updateStatus("picStatus", "VALID")
+            }
         }
 
 
@@ -109,7 +153,13 @@ $(function(){
         },
         //配置字段
         fields:{
-
+            brandId:{
+                validators:{
+                    notEmpty:{
+                        message:"请选择二级分类"
+                    }
+                }
+            },
 
             // 商品名称
             proName:{
@@ -130,6 +180,11 @@ $(function(){
                 validators:{
                     notEmpty:{
                         message:"请输入商品库存"
+                    },
+                //    正则校验
+                    regexp:{
+                        regexp:/^[1-9]\d*$/,
+                        message:"商品库存必须是非零开头的数字"
                     }
                 }
             },
@@ -137,8 +192,14 @@ $(function(){
                 validators:{
                     notEmpty:{
                         message:"请输入商品尺码"
+                    },
+                    //    正则校验
+                    regexp:{
+                        regexp:/^\d{2}-\d{2}$/,
+                        message:"尺码必须是xx-xx的格式，例如32-34"
                     }
                 }
+
             },
             oldPrice:{
                 validators:{
@@ -153,9 +214,62 @@ $(function(){
                         message:"请输入商品现价"
                     }
                 }
+            },
+            picStatus:{
+                validators:{
+                    notEmpty:{
+                        message:"请选择三张图片"
+                    }
+                }
             }
         }
 
     });
 
-})
+    $("#form").on("success.form.bv", function( e ) {
+        e.preventDefault();
+        //获取的是表单元素的数据
+        var paramsStr = $("#form").serialize();
+        //还需要拼接图片地址
+
+        paramsStr += "&picName1=" + picArr[0].picName + "&picAddr1=" + picArr[0].picAddr;
+        paramsStr += "&picName2=" + picArr[1].picName + "&picAddr2=" + picArr[1].picAddr;
+        paramsStr += "&picName3=" + picArr[2].picName + "&picAddr3=" + picArr[2].picAddr;
+        // console.log(paramsStr);
+        $.ajax({
+            url: "/product/addProduct",
+            type: "post",
+            dataType:"json",
+            data:paramsStr,
+
+            success:function(info){
+
+                if(info.success){
+
+                    //模态框隐藏
+                    $("#addModal").modal("hide");
+                    //    重置模态框内容
+                    $("#form").data("bootstrapValidator").resetForm(true);
+                    //    重新渲染页面
+                    currentPage = 1;
+                    render();
+
+                    //    手动重置 下拉菜单内容
+                    $("#dropdownText").text("请选择二级分类");
+                    //    删除图片
+                    $("#imgBox img").remove();
+                    //    重置数组
+                    picArr = [];
+                }
+
+            }
+
+
+
+        });
+
+    });
+
+
+
+});
