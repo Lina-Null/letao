@@ -39,6 +39,8 @@ img {
     padding-right: 45px;
 
 }
+
+
 .lt_header .icon_left,.lt_header .icon_right
 {
     width:45px;
@@ -96,4 +98,10 @@ img {
 .lt_footer li p{
     color:#fff;
 
+}
+.lt_footer li a.current{
+    color:orange;
+}
+.lt_footer li a.current p{
+    color:orange;
 }
